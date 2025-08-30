@@ -6,7 +6,7 @@ import { Court } from "../models/courtSchema.js";
 import { Review } from "../models/reviewSchema.js";
 import { Booking } from "../models/bookingschema.js";
 
-// Helpers
+
 const toInt = (value, fallback) => {
   const parsed = parseInt(value, 10);
   return Number.isNaN(parsed) ? fallback : parsed;
@@ -32,10 +32,10 @@ export const getVenues = async (req, res) => {
 
     const pipeline = [];
 
-    // Approved facilities only
+ 
     pipeline.push({ $match: { status: "approved" } });
 
-    // Search by name or city
+
     if (search) {
       pipeline.push({
         $match: {
@@ -47,7 +47,7 @@ export const getVenues = async (req, res) => {
       });
     }
 
-    // Filter by sport (supportedSports is an array)
+ 
     if (sport) {
       pipeline.push({
         $match: { supportedSports: { $regex: sport, $options: "i" } },
@@ -84,7 +84,7 @@ export const getVenues = async (req, res) => {
       );
     }
 
-    // Derive starting price and average rating
+   
     pipeline.push({
       $addFields: {
         startingPrice: { $min: "$courts.pricePerHour" },
@@ -92,12 +92,12 @@ export const getVenues = async (req, res) => {
       },
     });
 
-    // Filter by minimum rating
+   
     if (typeof minRating === "number") {
       pipeline.push({ $match: { averageRating: { $gte: minRating } } });
     }
 
-    // Pagination with total count
+
     const skip = (page - 1) * limit;
     pipeline.push({
       $facet: {

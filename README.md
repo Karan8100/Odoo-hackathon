@@ -21,14 +21,14 @@ Discover, book, and manage sports venues and courts.
 
 </div>
 
-## 📌 Overview  
+## Overview  
 QuickCourt is a full-stack MERN application designed for sports enthusiasts to **discover, book, and manage local sports facilities** with ease. Whether it’s a badminton court, turf ground, or tennis table, QuickCourt makes booking as easy as scoring a point!  
 
 This platform was built as part of **Odoo Hackathon 2025 – Final Round**, implementing a smooth, real-time booking experience for players, facility owners, and admins.  
 
 ---
 
-## 🚀 Features  
+## Features  
 
 ### 🔹 Authentication & User Profiles  
 - Secure **email + password** signup/login  
@@ -67,12 +67,12 @@ This platform was built as part of **Odoo Hackathon 2025 – Final Round**, impl
 
 ---
 
-## 📸 Screenshots  
+## Screenshots  
 > _Add screenshots of your Home Page, Venue Details Page, and Dashboard here_  
 
 ---
 
-## 📂 Project Structure  
+## Project Structure  
 
 /client → React frontend
 /server → Node.js backend
@@ -84,7 +84,7 @@ This platform was built as part of **Odoo Hackathon 2025 – Final Round**, impl
 
 ---
 
-## ⚡ Installation & Setup  
+## Installation & Setup  
 
 ```bash
 # Clone the repo
@@ -116,7 +116,7 @@ cd ../client
 npm run dev
 ```
 
-## 🌟 Future Enhancements
+## Future Enhancements
 -✅ Real payment gateway integration
 
 -✅ Live chat between players & owners

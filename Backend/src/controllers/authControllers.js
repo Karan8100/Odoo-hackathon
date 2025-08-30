@@ -1,13 +1,15 @@
 import dotenv from "dotenv";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-// Load env from default CWD, Backend/.env, and project root .env for robustness
+
+
 dotenv.config();
 try {
   const __dirname = dirname(fileURLToPath(import.meta.url));
-  // Backend root .env
+
+
   dotenv.config({ path: resolve(__dirname, "../..", ".env") });
-  // Project root .env
+
   dotenv.config({ path: resolve(__dirname, "../../..", ".env") });
 } catch {}
 import User from "../models/userschema.js";
@@ -85,7 +87,7 @@ export const verifyOtp = async (req, res, next) => {
     await user.save();
 
     const token = generateToken(user);
-    // Optionally set httpOnly cookie so clients don't need to manage Authorization header
+    
     if (res.cookie) {
       res.cookie("token", token, {
         httpOnly: true,
@@ -144,7 +146,7 @@ export const logout = async (req, res, next) => {
   }
 };
 
-// Admin login using .env credentials; issues separate admin cookie
+
 export const adminLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;

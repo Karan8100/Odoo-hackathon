@@ -3,7 +3,7 @@ import User from "../models/userschema.js";
 
 export const protect = async (req, res, next) => {
   try {
-    // Extract token from Authorization header, cookies, or query
+   
     const authHeader = req.headers.authorization || req.headers.Authorization;
     let token = null;
 
@@ -35,7 +35,7 @@ export const protect = async (req, res, next) => {
         .json({ message: "Server misconfiguration: JWT secret missing" });
     }
 
-    // Verify token and attach user to request
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
 
@@ -45,7 +45,7 @@ export const protect = async (req, res, next) => {
         .json({ message: "Not authorized, user not found" });
     }
 
-    req.user = user; // role is available via user.role; token may also carry role
+    req.user = user; 
     return next();
   } catch (error) {
     if (error && error.name === "TokenExpiredError") {
@@ -55,7 +55,7 @@ export const protect = async (req, res, next) => {
   }
 };
 
-// Admin-only auth that does not require a DB user record
+
 export const protectAdmin = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization || req.headers.Authorization;

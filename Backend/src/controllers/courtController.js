@@ -18,7 +18,7 @@ export const createCourt = async (req, res, next) => {
         .json({ success: false, message: "All fields are required" });
     }
 
-    // Convert facilityId string to ObjectId
+   
     const facilityObjectId = new mongoose.Types.ObjectId(facilityId);
 
     const court = new Court({

@@ -24,7 +24,7 @@ router.post("/intent", createStripePaymentIntent);
 // Finalize payment (after PI succeeded)
 router.post("/finalize", finalizePayment);
 
-// Razorpay order and verification
+// Razorpay order and verification --> Not implemented due to some errors in the doumenttaion
 router.post("/razorpay/order", createRazorpayOrder);
 router.post("/razorpay/verify", verifyRazorpayPayment);
 

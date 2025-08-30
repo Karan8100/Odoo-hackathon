@@ -23,7 +23,6 @@ export default function Signup() {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const openAdmin = () => navigate("/admin/login");
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -122,8 +121,13 @@ export default function Signup() {
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="User">User</SelectItem>
-                <SelectItem value="Facility Owner">Facility Owner</SelectItem>
+                {roles
+                  .filter((role) => role !== "Admin") // 👈 removes Admin
+                  .map((role) => (
+                    <SelectItem key={role} value={role}>
+                      {role}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
@@ -152,12 +156,6 @@ export default function Signup() {
               Log in
             </Link>
           </p>
-
-          <div className="pt-2">
-            <button type="button" onClick={openAdmin} className="w-full text-sm text-gray-700 underline">
-              Login as Admin
-            </button>
-          </div>
         </form>
       </div>
     </div>

@@ -44,11 +44,13 @@ export default function MoreOptions() {
 
   const pricepevenue = venues.filter((venue) => {
     const pricename = venue.startingPrice;
-    const pricename1 = venue.name;
+    const pricename1 = venue.name.toLowerCase();
+    
     return (
       pricename1.toLowerCase().includes(searchName.toLowerCase()) &&
       pricename >= (minRating || 0)
     );
+    return pricename;
   });
   // Get unique sports for filter dropdown
   const uniqueSports = [

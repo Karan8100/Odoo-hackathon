@@ -12,12 +12,13 @@ router.post("/logout", logout);
 router.post("/admin/login", adminLogin);
 router.post("/admin/logout", adminLogout);
 
-// Example protected route to get current user profile
 router.get("/me", protect, (req, res) => {
   return res.json({ success: true, user: req.user });
 });
 
-// Admin current session check
+
+
+//Not implemented yet
 router.get("/admin/me", protectAdmin, (req, res) => {
   return res.json({ success: true, admin: { role: "Admin" } });
 });

@@ -15,7 +15,7 @@ const computeDurationHours = (start, end) => {
 };
 
 const combineDateAndTime = (dateStr, timeStr) => {
-  // Expect dateStr: YYYY-MM-DD, timeStr: HH:mm
+
   return new Date(`${dateStr}T${timeStr}:00`);
 };
 
@@ -25,7 +25,7 @@ const findCheapestCourtForSport = async (facilityId, sportType) => {
     .exec();
 };
 
-// GET price quote for a court and time range
+
 export const getQuote = async (req, res) => {
   try {
     const { courtId, startTime, endTime } = req.query;
@@ -74,7 +74,7 @@ export const getQuote = async (req, res) => {
   }
 };
 
-// Create a Stripe PaymentIntent for a facility by sport/date/time/duration
+
 export const createStripePaymentIntent = async (req, res) => {
   try {
     const { facilityId, sportType, date, startTime, durationHours, amountOverride } = req.body;
@@ -110,7 +110,7 @@ export const createStripePaymentIntent = async (req, res) => {
       start.getTime() + Number(durationHours) * 60 * 60 * 1000
     );
 
-    // Overlap check against confirmed bookings
+   
     const overlapping = await Booking.findOne({
       courtId: court._id,
       status: "confirmed",
@@ -159,7 +159,7 @@ export const createStripePaymentIntent = async (req, res) => {
   }
 };
 
-// Razorpay integration: create order and verify payment
+
 export const createRazorpayOrder = async (req, res) => {
   try {
     const { facilityId, sportType, date, startTime, durationHours, amountOverride } = req.body;
@@ -184,12 +184,12 @@ export const createRazorpayOrder = async (req, res) => {
       return res.status(409).json({ success: false, message: "Time slot is already booked" });
     }
 
-    // Compute amount in paise; allow override from client to show same UI amount
+    
     const amountInPaise = Math.round(
       (amountOverride ?? court.pricePerHour * Number(durationHours)) * 100
     );
 
-    // Create a Razorpay order via REST API (simple fetch)
+   
     const keyId = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     if (!keyId || !keySecret) {
@@ -227,7 +227,7 @@ export const verifyRazorpayPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: "Missing Razorpay payment fields" });
     }
 
-    // Validate signature
+  
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     const expected = crypto
       .createHmac("sha256", keySecret)
@@ -238,7 +238,7 @@ export const verifyRazorpayPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid payment signature" });
     }
 
-    // Create booking after successful payment
+   
     const start = new Date(startISO);
     const end = new Date(endISO);
     const durationHours = computeDurationHours(start, end);
@@ -258,7 +258,7 @@ export const verifyRazorpayPayment = async (req, res) => {
 
     const totalPrice = durationHours * court.pricePerHour;
     
-    // Create booking
+ 
     const booking = await Booking.create({
       userId,
       facilityId,
@@ -269,7 +269,7 @@ export const verifyRazorpayPayment = async (req, res) => {
       status: "confirmed",
     });
 
-    // Store payment record in MongoDB
+    
     const payment = await Payment.create({
       bookingId: booking._id,
       provider: "razorpay",
@@ -298,7 +298,7 @@ export const verifyRazorpayPayment = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message || "Failed to verify Razorpay payment" });
   }
 };
-// Finalize payment by verifying PaymentIntent and creating booking
+
 export const finalizePayment = async (req, res) => {
   try {
     const { paymentIntentId } = req.body;
@@ -330,7 +330,7 @@ export const finalizePayment = async (req, res) => {
       });
     }
 
-    // Ensure no overlap since payment time
+   
     const start = new Date(startISO);
     const end = new Date(endISO);
 
@@ -357,7 +357,7 @@ export const finalizePayment = async (req, res) => {
     const durationHours = computeDurationHours(start, end);
     const totalPrice = durationHours * court.pricePerHour;
 
-    // Create booking
+
     const booking = await Booking.create({
       userId,
       facilityId,
@@ -368,7 +368,7 @@ export const finalizePayment = async (req, res) => {
       status: "confirmed",
     });
 
-    // Store payment record in MongoDB
+  
     const payment = await Payment.create({
       bookingId: booking._id,
       provider: "stripe",
@@ -398,7 +398,7 @@ export const finalizePayment = async (req, res) => {
   }
 };
 
-// Existing mock endpoints kept for reference/compatibility
+
 export const createPaymentSession = async (req, res) => {
   try {
     const { courtId, startTime, endTime } = req.body;
@@ -432,7 +432,7 @@ export const createPaymentSession = async (req, res) => {
         .json({ success: false, message: "End time must be after start time" });
     }
 
-    // basic overlap check before creating session (advisory; final check happens on confirm)
+
     const overlapping = await Booking.findOne({
       courtId,
       status: "confirmed",
@@ -526,7 +526,7 @@ export const confirmPayment = async (req, res) => {
 
     const totalPrice = durationHours * court.pricePerHour;
 
-    // Simulate successful payment confirmation
+ 
     const booking = await Booking.create({
       userId,
       facilityId: court.facilityId,

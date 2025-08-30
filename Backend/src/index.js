@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+
 import { connectDB } from "./config/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -13,20 +12,9 @@ import userRoutes from "./routes/user.routes.js";
 import paymentRoutes from "./routes/payments.routes.js";
 import facilityRoutes from "./routes/facilityRoutes.js";
 import courtRoutes from "./routes/courtRoutes.js";
-// import venueRoutes from "./routes/venueRoutes.js";
-// import courtRoutes from "./routes/courtRoutes.js";
-// import bookingRoutes from "./routes/bookingRoutes.js";
-// import reviewRoutes from "./routes/reviewRoutes.js";
 
-// Load env from Backend/.env by default, also try project-root .env for flexibility
+
 dotenv.config();
-try {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-  // Backend root .env (../ since file is in src/)
-  dotenv.config({ path: resolve(__dirname, "..", ".env") });
-  // Project root .env
-  dotenv.config({ path: resolve(__dirname, "../..", ".env") });
-} catch {}
 const app = express();
 const PORT = process.env.PORT || 4001;
 
